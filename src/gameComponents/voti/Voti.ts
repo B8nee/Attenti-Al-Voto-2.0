@@ -18,18 +18,13 @@ export default class Voti extends Phaser.GameObjects.Sprite implements IVoti {
   }
 
   async create() {
-    this.setScale(0.05);
-    this.setAlpha(0).setScale(0.5).setDepth(10);
     this._scene.tweens.add({
       targets: this,
       alpha: 1,
-      scale: 0.5,
-      duration: 1,
+      duration: 200,
     });
     this._scene.addVoti(this);
-    this._scene.add.existing(this);
     this._body.allowGravity = false;
-    this._body.setVelocityX(-1700);
   }
 
   votiController = async () => {
@@ -57,5 +52,9 @@ export default class Voti extends Phaser.GameObjects.Sprite implements IVoti {
     }, Phaser.Math.Between(350, 1350));
   };
 
-  async update() {}
+  async update() {
+    if (this.votiCounter < 1) {
+      this.votiController();
+    }
+  }
 }
