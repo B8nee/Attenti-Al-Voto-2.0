@@ -1,0 +1,103 @@
+import { GameData } from "../GameData";
+
+export default class Preloader extends Phaser.Scene {
+  private loading: Phaser.GameObjects.BitmapText;
+  private progress: Phaser.GameObjects.Graphics;
+  private image: Phaser.GameObjects.Image;
+
+  constructor() {
+    super({
+      key: "Preloader",
+    });
+  }
+
+  async preload() {
+    this.cameras.main.setBackgroundColor("#000000");
+    this.progress = this.add.graphics();
+    this.loadAssets();
+  }
+
+  async init() {
+    this.loading = this.add
+      .bitmapText(this.game.canvas.width / 2, 300, "arcade", "", 30)
+      .setAlpha(1)
+      .setDepth(1001)
+      .setOrigin(0.5, 1);
+  }
+
+  async loadAssets() {
+    this.load.on("start", () => {});
+
+    this.load.on("fileprogress", () => {});
+
+    this.load.on("progress", async (value: any) => {
+      this.progress.clear();
+      this.progress.fillStyle(0x0000ff, 1);
+      this.progress.fillRect(0, 530, 1280 * value, 70);
+      this.loading.setText("Caricamento.");
+      this.loading.setText("Caricamento..");
+      this.loading.setText("Caricamento...");
+    });
+
+    this.load.on("complete", () => {
+      this.tweens.add({
+        targets: [this.loading],
+        alpha: 0,
+        duration: 0,
+        onComplete: () => {
+          this.scene.start("Intro");
+        },
+      });
+    });
+
+
+    if (GameData.script != null)
+      GameData.script.forEach((element: ScriptAsset) => {
+        this.load.script(element.key, element.path);
+      });
+
+    if (GameData.images != null)
+      GameData.images.forEach((element: ImageAsset) => {
+        this.load.image(element.name, element.path);
+      });
+
+    if (GameData.tilemaps != null)
+      GameData.tilemaps.forEach((element: TileMapsAsset) => {
+        this.load.tilemapTiledJSON(element.key, element.path);
+      });
+
+    if (GameData.atlas != null)
+      GameData.atlas.forEach((element: AtlasAsset) => {
+        this.load.atlas(element.key, element.imagepath, element.jsonpath);
+      });
+
+    if (GameData.spritesheets != null)
+      GameData.spritesheets.forEach((element: SpritesheetsAsset) => {
+        this.load.spritesheet(element.name, element.path, {
+          frameWidth: element.width,
+          frameHeight: element.height,
+          endFrame: element.frames,
+        });
+      });
+
+    if (GameData.bitmapfont != null)
+      GameData.bitmapfont.forEach((element: BitmapfontAsset) => {
+        this.load.bitmapFont(element.name, element.imgpath, element.xmlpath);
+      });
+
+    if (GameData.sounds != null)
+      GameData.sounds.forEach((element: SoundAsset) => {
+        this.load.audio(element.name, element.paths);
+      });
+
+    if (GameData.audio != null)
+      GameData.audio.forEach((element: AudioSpriteAsset) => {
+        this.load.audioSprite(
+          element.name,
+          element.jsonpath,
+          element.paths,
+          element.instance
+        );
+      });
+  }
+}

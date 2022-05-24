@@ -1,0 +1,36 @@
+preload() {
+    this._scuola2 = this.add.tileSprite(0,0, this.game.canvas.width ,this.game.canvas.height, "scuola3").setOrigin(0);
+  }
+  init() {}
+  create() {
+    var cursors;
+    var platforms;
+    var studente
+    platforms = this.physics.add.staticGroup();
+    
+    this.input.addPointer(2);
+
+    this._sfx = this.sound.addAudioSprite("sfx");
+    studente = this.physics.add.sprite(100, 450, "studente");
+
+    studente.setBounce(0.2);
+    studente.setCollideWorldBounds(true);
+    this._groupStudente = this.add.group({
+      runChildUpdate: true,
+      maxSize: 100,
+    });
+this
+  this.physics.world.setBounds(
+       0,
+        0,
+       1280,
+        600
+      );
+      platforms = this.physics.add.staticGroup();
+
+      for(this.i=0;this.i<1248;this.i++){
+    platforms.create(this.i, 600, ).setScale(2).refreshBody();
+    this.physics.add.collider(studente,platforms);
+      }
+    //this._groupBomb.add(new BOMB({ scene:this,key:"BOMB",x:100,y:100}))
+new Studente({ scene:this,x:100,y:100,key:"studente"})
