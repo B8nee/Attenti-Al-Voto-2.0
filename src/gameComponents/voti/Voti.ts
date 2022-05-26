@@ -23,7 +23,6 @@ export default class Voti extends Phaser.GameObjects.Sprite implements IVoti {
       alpha: 1,
       duration: 200,
     });
-    this._scene.addVoti(this);
     this._body.allowGravity = false;
   }
 
