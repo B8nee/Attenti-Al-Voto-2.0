@@ -1,6 +1,6 @@
 import Studente from "../gameComponents/Studente/Studente";
 import Voti from "../gameComponents/voti/Voti";
-import Hud from "./Hud";
+import Prof from "../gameComponents/voti/Prof";
 
 export default class GamePlay extends Phaser.Scene {
   private _scuola: Phaser.GameObjects.Image;
@@ -11,6 +11,8 @@ export default class GamePlay extends Phaser.Scene {
   private _votiCounter: number = 0;
   private _voti: Phaser.GameObjects.Image;
   private _voti2: Phaser.GameObjects.Image;
+  private _profGroup: Phaser.GameObjects.Group;
+  private _prof: any;
 
   constructor() {
     super({ key: "GamePlay" });
@@ -26,6 +28,7 @@ export default class GamePlay extends Phaser.Scene {
     this._level = 1;
     this._votiGroup = this.add.group({ runChildUpdate: true });
     this._votiGroup2 = this.add.group({ runChildUpdate: true });
+    this._profGroup = this.add.group({ runChildUpdate: true });
 
     this._player = new Studente({
       scene: this,
@@ -33,6 +36,18 @@ export default class GamePlay extends Phaser.Scene {
       y: 300,
       key: "studente",
     });
+
+    this._player = this.physics.add.existing(this._player);
+
+    this._prof = new Prof({
+      scene: this,
+      x: this.game.canvas.width / 2,
+      y: 0,
+      key: "prof",
+    }).setAlpha(0);
+
+    this._prof = this.physics.add.existing(this._prof);
+    this._prof.body.setAllowGravity(false);
 
     this.physics.add.collider(
       this._player,
@@ -49,53 +64,31 @@ export default class GamePlay extends Phaser.Scene {
       undefined,
       this
     );
+    // collisione da verificare
+    this.physics.add.collider(
+      this._player,
+      this._prof,
+      this.votiPositivi,
+      undefined,
+      this
+    );
   }
 
   async votiNegativi() {
     this.scene.stop();
     this.scene.start("GameOver");
   }
-  
+
   async votiPositivi() {
     this.events.emit("update-score", 10);
   }
 
-  votiController = async () => {
-    const duration = Phaser.Math.Between(7000, 9000); // 19 x 11 = 210
-
-    this._voti = this.add.image(Phaser.Math.Between(0, 1280), 0, "2");
-
-    this._voti2 = this.add.image(Phaser.Math.Between(0, 1280), -100, "10");
-
-    this.tweens.add({
-      targets: this._voti,
-      y: 720,
-      ease: "Linear",
-      duration,
-    });
-
-    this.tweens.add({
-      targets: this._voti2,
-      delay: 1000,
-      y: 720,
-      ease: "Linear",
-      duration,
-    });
-
-    this._votiCounter += 1;
-
-    setTimeout(() => {
-      this._votiCounter -= 1;
-    }, 3000);
-  };
+  async addProf(prof: Prof) {
+    this._profGroup.add(prof);
+  }
 
   async update(time: number, delta: number) {
-    function delay(ms: number) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
     this._player.update();
-    if (this._votiCounter < 1) {
-      this.votiController();
-    }
+    this._prof.update();
   }
 }

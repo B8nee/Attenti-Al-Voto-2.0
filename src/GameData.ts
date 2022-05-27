@@ -36,7 +36,7 @@ export let GameData: any = {
     { name: "sfondoComandi", path: "assets/images/sfondoComandi.jpg" },
     { name: "scuola3", path: "assets/images/scuola3.png" },
     { name: "comandiMovimento", path: "assets/images/comandiMovimento.png" },
-    { name: "sfondoIntro", path: "assets/images/sfondoIntro.png"},
+    { name: "sfondoIntro", path: "assets/images/sfondoIntro.png" },
     { name: "1", path: "assets/images/1.png" },
     { name: "2", path: "assets/images/2.png" },
     { name: "3", path: "assets/images/3.png" },
@@ -47,11 +47,11 @@ export let GameData: any = {
     { name: "8", path: "assets/images/8.png" },
     { name: "9", path: "assets/images/9.png" },
     { name: "10", path: "assets/images/10.png" },
-    
+    { name: "prof", path: "assets/images/prof.jpg" },
   ],
- 
+
   sounds: [
-      {
+    {
       name: "music0",
       paths: ["assets/sounds/music0.ogg", "assets/sounds/music0.m4a"],
       volume: 1,
@@ -80,6 +80,6 @@ export let GameData: any = {
       name: "arcade",
       imgpath: "assets/fonts/arcade.png",
       xmlpath: "assets/fonts/arcade.xml",
-    }
+    },
   ],
 };

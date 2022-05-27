@@ -8,9 +8,7 @@ import GamePlay from "./scenes/GamePlay";
 import { GameData } from "./GameData";
 import Comandi from "./scenes/Comandi";
 
-
 window.addEventListener("load", () => {
-  
   const config: any = {
     type: Phaser.WEBGL,
     backgroundColor: GameData.globals.bgColor,
@@ -21,25 +19,14 @@ window.addEventListener("load", () => {
       height: GameData.globals.gameHeight,
     },
 
-    scene: [
-      Boot,
-      Preloader,
-      Intro,
-      Hud,
-      GamePlay,
-      GameOver,
-      Comandi,
-    ],
+    scene: [Boot, Preloader, Intro, Hud, GamePlay, GameOver, Comandi],
 
     physics: {
       default: "arcade",
       arcade: {
         debug: true,
-         gravity: { y: 1400 }
-         
-        
-      }
-      
+        gravity: { y: 1400 },
+      },
     },
     input: {
       activePointers: 2,
